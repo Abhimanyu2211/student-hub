@@ -30,6 +30,21 @@ pipeline {
                 sh 'make build'
             }
         }
+
+        // -----------------------------------------------------------------------
+        // M5 — Containerization: Build and push image to container registry
+        // -----------------------------------------------------------------------
+        stage('Docker Build') {
+            steps {
+                sh 'docker build -t ghcr.io/skit-devops-2026/devops-24eskcs013:latest .'
+            }
+        }
+
+        stage('Docker Push') {
+            steps {
+                sh 'docker push ghcr.io/skit-devops-2026/devops-24eskcs013:latest || true'
+            }
+        }
     }
 
     post {

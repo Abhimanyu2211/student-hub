@@ -4,6 +4,10 @@ on:
   push:
   pull_request:
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   # ---------------------------------------------------------------------------
   # Given to you. Do not delete this job.
@@ -19,7 +23,7 @@ jobs:
         run: bash scripts/hygiene.sh
 
   # ---------------------------------------------------------------------------
-  # M3 — Build and test job (uncommented and active)
+  # M3 — Build and test job
   # ---------------------------------------------------------------------------
   build-and-test:
     name: Build and test
@@ -32,3 +36,33 @@ jobs:
         run: make test
       - name: Build
         run: make build
+
+      # -----------------------------------------------------------------------
+      # M5 — Containerization: Build Docker Image
+      # -----------------------------------------------------------------------
+      - name: Build Docker image
+        run: docker build -t devops-24eskcs013 .
+
+      # -----------------------------------------------------------------------
+      # M5 — Containerization: Push Docker image to container registry
+      # -----------------------------------------------------------------------
+      - name: Log in to GitHub Container Registry
+        if: github.ref == 'refs/heads/main'
+        run: echo "${{ secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Push Docker image to container registry
+        if: github.ref == 'refs/heads/main'
+        run: |
+          ACTOR=$(echo "${{ github.actor }}" | tr '[:upper:]' '[:lower:]')
+          docker tag devops-24eskcs013 ghcr.io/${ACTOR}/devops-24eskcs013:latest
+          docker tag devops-24eskcs013 ghcr.io/${ACTOR}/devops-24eskcs013:${{ github.sha }}
+          docker tag devops-24eskcs013 ghcr.io/skit-devops-2026/devops-24eskcs013:latest
+          docker tag devops-24eskcs013 ghcr.io/skit-devops-2026/devops-24eskcs013:${{ github.sha }}
+          docker tag devops-24eskcs013 ghcr.io/${ACTOR}/todo-practice:latest
+          docker tag devops-24eskcs013 ghcr.io/${ACTOR}/todo-practice:${{ github.sha }}
+          docker push ghcr.io/${ACTOR}/devops-24eskcs013:latest
+          docker push ghcr.io/${ACTOR}/devops-24eskcs013:${{ github.sha }}
+          docker push ghcr.io/skit-devops-2026/devops-24eskcs013:latest
+          docker push ghcr.io/skit-devops-2026/devops-24eskcs013:${{ github.sha }}
+          docker push ghcr.io/${ACTOR}/todo-practice:latest
+          docker push ghcr.io/${ACTOR}/todo-practice:${{ github.sha }}
