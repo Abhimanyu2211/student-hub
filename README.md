@@ -29,7 +29,7 @@ Or simply open `index.html` in your browser.
 
 ## Live URL
 
-https://student-hub-demo.netlify.app (Please replace this with your actual deployed Live URL)
+https://abhimanyu2211.github.io/student-hub/
 
 ## Health endpoint
 

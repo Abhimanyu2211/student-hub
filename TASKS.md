@@ -26,7 +26,7 @@ Please complete the following checklist to ensure you get full marks (20/20) for
 ## MT2 - Modules 5-6
 
 ### M6: Deployment and Monitoring
-- [ ] **Live URL Responding:** I have put a placeholder URL (`https://student-hub-demo.netlify.app`) in the `README.md`. You need to actually deploy your frontend code somewhere (Vercel, Netlify, Render, GitHub Pages) and replace that placeholder in `README.md` with your **actual working Live URL**.
+- [x] **Live URL Responding:** Successfully deployed to GitHub Pages at [https://abhimanyu2211.github.io/student-hub/](https://abhimanyu2211.github.io/student-hub/). URL added to `README.md`.
 - [ ] **Deployment Screenshot:** I generated a dummy `docs/deployment.jpg`, but for the real grade, you should take a screenshot of your *actual deployed app* in the browser (with the URL visible) and overwrite `docs/deployment.jpg`.
 - [ ] **Prometheus & Grafana:** I created `monitoring/prometheus.yml` and a dummy `monitoring/dashboard.json`. If your evaluator requires an actual working Grafana dashboard json export, you need to set up Grafana locally, connect it to Prometheus, export the dashboard as JSON, and replace `monitoring/dashboard.json`.
 
