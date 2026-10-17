@@ -31,8 +31,18 @@ jobs:
         run: |
           ACTOR=$(echo "${{ github.actor }}" | tr '[:upper:]' '[:lower:]')
           docker tag todo-practice ghcr.io/${ACTOR}/todo-practice:${{ github.sha }}
+          docker tag todo-practice ghcr.io/${ACTOR}/todo-practice:latest
+          docker tag todo-practice ghcr.io/${ACTOR}/devops-24eskcs013:${{ github.sha }}
+          docker tag todo-practice ghcr.io/${ACTOR}/devops-24eskcs013:latest
+          docker tag todo-practice ghcr.io/skit-devops-2026/devops-24eskcs013:${{ github.sha }}
+          docker tag todo-practice ghcr.io/skit-devops-2026/devops-24eskcs013:latest
 
       - name: Push to GHCR
         run: |
           ACTOR=$(echo "${{ github.actor }}" | tr '[:upper:]' '[:lower:]')
           docker push ghcr.io/${ACTOR}/todo-practice:${{ github.sha }}
+          docker push ghcr.io/${ACTOR}/todo-practice:latest
+          docker push ghcr.io/${ACTOR}/devops-24eskcs013:${{ github.sha }}
+          docker push ghcr.io/${ACTOR}/devops-24eskcs013:latest
+          docker push ghcr.io/skit-devops-2026/devops-24eskcs013:${{ github.sha }}
+          docker push ghcr.io/skit-devops-2026/devops-24eskcs013:latest
