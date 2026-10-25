@@ -9,12 +9,14 @@ vendor/
 # Build output
 dist/
 build/
+*.tsbuildinfo
 *.class
 *.jar
 
 # Environment and secrets
 .env
 .env.*
+!.env.example
 *.pem
 *.key
 
