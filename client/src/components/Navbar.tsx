@@ -1,6 +1,15 @@
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export function Navbar() {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  async function handleLogout() {
+    await logout();
+    navigate('/', { replace: true });
+  }
+
   return (
     <header className="navbar">
       <div className="container navbar-inner">
@@ -14,6 +23,19 @@ export function Navbar() {
           <NavLink to="/health" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
             System Health
           </NavLink>
+
+          {user && user.role === 'student' && (
+            <NavLink to="/student/dashboard" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
+              My Dashboard
+            </NavLink>
+          )}
+
+          {user && user.role === 'admin' && (
+            <NavLink to="/admin/dashboard" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
+              Admin Console
+            </NavLink>
+          )}
+
           <a
             href="https://abhimanyu2211.github.io/student-hub/"
             target="_blank"
@@ -22,9 +44,31 @@ export function Navbar() {
           >
             Static Live Site ↗
           </a>
-          <Link to="/login" className="btn btn-primary" style={{ padding: '0.45rem 1rem', fontSize: '0.85rem' }}>
-            Portal Sign In
-          </Link>
+
+          {user ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <span className={`badge ${user.role === 'admin' ? 'badge-gold' : 'badge-green'}`}>
+                {user.role.toUpperCase()}
+              </span>
+              <span style={{ fontSize: '0.875rem', fontWeight: 600 }}>{user.name}</span>
+              <button
+                onClick={handleLogout}
+                className="btn btn-secondary"
+                style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem' }}
+              >
+                Sign Out
+              </button>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <Link to="/login" className="btn btn-secondary" style={{ padding: '0.45rem 0.9rem', fontSize: '0.85rem' }}>
+                Sign In
+              </Link>
+              <Link to="/register" className="btn btn-primary" style={{ padding: '0.45rem 1rem', fontSize: '0.85rem' }}>
+                Register
+              </Link>
+            </div>
+          )}
         </nav>
       </div>
     </header>
