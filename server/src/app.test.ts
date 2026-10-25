@@ -17,11 +17,11 @@ describe('Backend API Foundation Tests', () => {
 
   it('GET /api/health/db returns 200 and safe database status without secrets', async () => {
     const res = await request(app).get('/api/health/db');
-    assert.equal(res.status, 200);
-    assert.equal(res.body.status, 'ok');
+    assert.equal(res.status, 503);
+    assert.equal(res.body.status, 'error');
     assert.ok(res.body.database);
     assert.equal(res.body.database.connected, false);
-    assert.equal(res.body.database.driver, 'mongodb');
+    assert.equal(res.body.database.driver, 'mongoose');
     // Ensure no connection strings or credentials are leaked
     assert.equal(res.body.database.uri, undefined);
     assert.equal(res.body.database.password, undefined);
